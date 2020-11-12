@@ -17,22 +17,20 @@ services:
       - 7878:7878
     restart: unless-stopped
 
-  deluge:
-    image: ghcr.io/linuxserver/deluge
-    container_name: deluge
-    network_mode: host
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - UMASK_SET=022 #optional
-      - DELUGE_LOGLEVEL=error #optional
-    volumes:
-      - /media/deluge/:/config
-      - /media/downloads:/downloads
-    # ports:
-    #   - 8112:8112 
-    restart: unless-stopped
+  # deluge:
+  #   image: ghcr.io/linuxserver/deluge
+  #   container_name: deluge
+  #   network_mode: host
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/London
+  #     - UMASK_SET=022 #optional
+  #     - DELUGE_LOGLEVEL=error #optional
+  #   volumes:
+  #     - /media/deluge/:/config
+  #     - /media/downloads:/downloads
+  #   restart: unless-stopped
 
   jackett:
     image: ghcr.io/linuxserver/jackett
