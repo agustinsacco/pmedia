@@ -30,8 +30,8 @@ services:
     volumes:
       - /media/deluge/:/config
       - /media/downloads:/downloads
-    ports:
-      - 8112:8112 
+    # ports:
+    #   - 8112:8112 
     restart: unless-stopped
 
   jackett:
