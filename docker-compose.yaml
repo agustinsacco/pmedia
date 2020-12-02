@@ -10,7 +10,6 @@ services:
       - PGID=1000
       - VERSION=docker
       - UMASK_SET=022 #optional
-      - PLEX_CLAIM= #optional
     volumes:
       - /media/plex/:/config
       - /media/tv:/tv
