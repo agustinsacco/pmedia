@@ -14,8 +14,9 @@ sudo aa-remove-unknown
 Use ddclient to set up your Dyanmic DNS provider to access your applications externally.
 1. cd /media/ddclient/
 2. sudo nano ddclient.conf
-3. Uncomment your provider and fill credentials.
-4. After saving ddclient will restart and read new config.
+3. Uncomment # use=web
+4. Uncomment your provider and fill credentials.
+5. After saving ddclient will restart and read new config.
 
 ## Deluge
 
