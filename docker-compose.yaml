@@ -84,7 +84,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=<your timezone, eg Europe/London>
+      - TZ=EAmerica/Toronto
     volumes:
       - /media/organizr/:/config
     ports:
