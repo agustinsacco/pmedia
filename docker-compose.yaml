@@ -72,7 +72,6 @@ services:
       - PGID=1000
       - TZ=EAmerica/Toronto
       - AUTO_UPDATE=true #optional
-      - RUN_OPTS=<run options here> #optional
     volumes:
       - /media/jackett/:/config
       - /media/downloads:/downloads
@@ -88,7 +87,7 @@ services:
       - PGID=1000
       - TZ=<your timezone, eg Europe/London>
     volumes:
-      - pmedia/organizr/:/config
+      - /media/organizr/:/config
     ports:
       - 9983:80
     restart: unless-stopped
