@@ -79,7 +79,7 @@ services:
     restart: unless-stopped
 
   organizr:
-    image: linuxserver/organizr
+    image: organizr/organizr
     container_name: organizr
     environment:
       - PUID=1000
@@ -88,5 +88,5 @@ services:
     volumes:
       - /media/organizr/:/config
     ports:
-      - 9983:80
+      - 4444:80
     restart: unless-stopped
