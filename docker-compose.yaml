@@ -63,6 +63,25 @@ services:
       - /media/downloads:/downloads
     restart: unless-stopped
 
+  transmission:
+    image: ghcr.io/linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=EAmerica/Toronto
+      - USER=transmission #optional
+      - PASS=transmission #optional
+    volumes:
+      - /media/transmission:/config
+      - /media/downloads:/downloads 
+      - /media/transmission:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+
   jackett:
     image: ghcr.io/linuxserver/jackett
     container_name: jackett
