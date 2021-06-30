@@ -9,11 +9,11 @@ services:
       - PUID=1000
       - PGID=1000
       - VERSION=docker
-      - UMASK_SET=022 #optional
+      - UMASK=022 #optional
     volumes:
-      - /mnt/media/plex/:/config
-      - /mnt/media/shows:/shows
-      - /mnt/media/movies:/movies
+      - tnas-plex:/config
+      - tnas-shows:/shows
+      - tnas-movies:/movies
     restart: unless-stopped
 
   radarr:
@@ -23,11 +23,11 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=EAmerica/Toronto
-      - UMASK_SET=022 #optional
+      - UMASK=022 #optional
     volumes:
-      - /mnt/media/radarr/:/config
-      - /mnt/media/movies:/movies
-      - /mnt/downloads:/downloads
+      - /media/radarr:/config
+      - tnas-movies:/movies
+      - tnas-downloads:/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -39,29 +39,14 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - UMASK_SET=022 #optional
+      - UMASK=022 #optional
     volumes:
-      - /mnt/media/sonarr/:/config
-      - /mnt/media/shows:/shows
-      - /mnt/downloads:/downloads
+      - /media/sonarr:/config
+      - tnas-shows:/shows
+      - tnas-downloads:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
-
-  # deluge:
-  #   image: ghcr.io/linuxserver/deluge
-  #   container_name: deluge
-  #   network_mode: host
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=EAmerica/Toronto
-  #     - UMASK_SET=022 #optional
-  #     - DELUGE_LOGLEVEL=error #optional
-  #   volumes:
-  #     - /media/deluge/:/config
-  #     - /media/downloads:/downloads
-  #   restart: unless-stopped
 
   transmission:
     image: ghcr.io/linuxserver/transmission
@@ -73,8 +58,8 @@ services:
       - USER=transmission #optional
       - PASS=transmission #optional
     volumes:
-      - /mnt/media/transmission:/config
-      - /mnt/downloads:/downloads
+      - tnas-transmission:/config
+      - tnas-downloads:/downloads
     ports:
       - 9091:9091
       - 51413:51413
@@ -90,8 +75,8 @@ services:
       - TZ=EAmerica/Toronto
       - AUTO_UPDATE=true #optional
     volumes:
-      - /mnt/media/jackett/:/config
-      - /mnt/downloads:/downloads
+      - tnas-jackett:/config
+      - tnas-downloads:/downloads
     ports:
       - 9117:9117
     restart: unless-stopped
@@ -104,7 +89,7 @@ services:
       - PGID=1000
       - TZ=EAmerica/Toronto
     volumes:
-      - /mnt/media/organizr/:/config
+      - tnas-organizr:/config
     ports:
       - 4444:80
     restart: unless-stopped
@@ -117,5 +102,69 @@ services:
       - PGID=1000
       - TZ=EAmerica/Toronto
     volumes:
-      - /mnt/media/ddclient/:/config
-    restart: unless-stopped 
+      - tnas-ddclient:/config
+    restart: unless-stopped
+
+volumes:
+
+  tnas-downloads:
+    driver_opts:
+      type: cifs
+      o: "username=user,password=pass,uid=1000,gid=1000"
+      device: "//nas-ip/downloads"
+
+  tnas-shows:
+    driver_opts:
+      type: cifs
+      o: "username=user,password=pass,uid=1000,gid=1000"
+      device: "//nas-ip/media/shows"
+
+  tnas-movies:
+    driver_opts:
+      type: cifs
+      o: "username=user,password=pass,uid=1000,gid=1000"
+      device: "//nas-ip/media/movies"
+
+  # SQLite has trouble with network drives so we need to map a volume locally on host
+  # tnas-radarr:
+  #   driver_opts:
+  #     type: cifs
+  #     o: "username=user,password=pass,uid=1000,gid=1000"
+  #     device: "//nas-ip/media/configs/radarr"
+
+  # SQLite has trouble with network drives so we need to map a volume locally on host
+  # tnas-sonarr:
+  #   driver_opts:
+  #     type: cifs
+  #     o: "username=user,password=pass,uid=1000,gid=1000"
+  #     device: "//nas-ip/media/configs/sonarr"
+
+  tnas-plex:
+    driver_opts:
+      type: cifs
+      o: "username=user,password=pass,uid=1000,gid=1000"
+      device: "//nas-ip/media/configs/plex"
+
+  tnas-transmission:
+    driver_opts:
+      type: cifs
+      o: "username=user,password=pass,uid=1000,gid=1000"
+      device: "//nas-ip/media/configs/transmission"
+
+  tnas-jackett:
+    driver_opts:
+      type: cifs
+      o: "username=user,password=pass,uid=1000,gid=1000"
+      device: "//nas-ip/media/configs/jackett"
+
+  tnas-organizr:
+    driver_opts:
+      type: cifs
+      o: "username=user,password=pass,uid=1000,gid=1000"
+      device: "//nas-ip/media/configs/organizr"
+
+  tnas-ddclient:
+    driver_opts:
+      type: cifs
+      o: "username=user,password=pass,uid=1000,gid=1000"
+      device: "//nas-ip/media/configs/ddclient"
