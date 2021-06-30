@@ -11,9 +11,9 @@ services:
       - VERSION=docker
       - UMASK_SET=022 #optional
     volumes:
-      - /media/plex/:/config
-      - /media/tv:/tv
-      - /media/movies:/movies
+      - /mnt/media/plex/:/config
+      - /mnt/media/shows:/shows
+      - /mnt/media/movies:/movies
     restart: unless-stopped
 
   radarr:
@@ -25,9 +25,9 @@ services:
       - TZ=EAmerica/Toronto
       - UMASK_SET=022 #optional
     volumes:
-      - /media/radarr/:/config
-      - /media/movies:/movies
-      - /media/downloads:/downloads
+      - /mnt/media/radarr/:/config
+      - /mnt/media/movies:/movies
+      - /mnt/downloads:/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -41,27 +41,27 @@ services:
       - TZ=Europe/London
       - UMASK_SET=022 #optional
     volumes:
-      - /media/sonarr/:/config
-      - /media/tv:/tv
-      - /media/downloads:/downloads
+      - /mnt/media/sonarr/:/config
+      - /mnt/media/shows:/shows
+      - /mnt/downloads:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
 
-  deluge:
-    image: ghcr.io/linuxserver/deluge
-    container_name: deluge
-    network_mode: host
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=EAmerica/Toronto
-      - UMASK_SET=022 #optional
-      - DELUGE_LOGLEVEL=error #optional
-    volumes:
-      - /media/deluge/:/config
-      - /media/downloads:/downloads
-    restart: unless-stopped
+  # deluge:
+  #   image: ghcr.io/linuxserver/deluge
+  #   container_name: deluge
+  #   network_mode: host
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=EAmerica/Toronto
+  #     - UMASK_SET=022 #optional
+  #     - DELUGE_LOGLEVEL=error #optional
+  #   volumes:
+  #     - /media/deluge/:/config
+  #     - /media/downloads:/downloads
+  #   restart: unless-stopped
 
   transmission:
     image: ghcr.io/linuxserver/transmission
@@ -73,9 +73,8 @@ services:
       - USER=transmission #optional
       - PASS=transmission #optional
     volumes:
-      - /media/transmission:/config
-      - /media/downloads:/downloads 
-      - /media/transmission:/watch
+      - /mnt/media/transmission:/config
+      - /mnt/downloads:/downloads
     ports:
       - 9091:9091
       - 51413:51413
@@ -91,8 +90,8 @@ services:
       - TZ=EAmerica/Toronto
       - AUTO_UPDATE=true #optional
     volumes:
-      - /media/jackett/:/config
-      - /media/downloads:/downloads
+      - /mnt/media/jackett/:/config
+      - /mnt/downloads:/downloads
     ports:
       - 9117:9117
     restart: unless-stopped
@@ -105,7 +104,7 @@ services:
       - PGID=1000
       - TZ=EAmerica/Toronto
     volumes:
-      - /media/organizr/:/config
+      - /mnt/media/organizr/:/config
     ports:
       - 4444:80
     restart: unless-stopped
@@ -118,5 +117,5 @@ services:
       - PGID=1000
       - TZ=EAmerica/Toronto
     volumes:
-      - /media/ddclient/:/config
+      - /mnt/media/ddclient/:/config
     restart: unless-stopped 
