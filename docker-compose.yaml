@@ -11,7 +11,7 @@ services:
       - VERSION=docker
       - UMASK=022 #optional
     volumes:
-      - tnas-plex:/config
+      - /media/config:/config
       - tnas-shows:/shows
       - tnas-movies:/movies
     restart: unless-stopped
@@ -58,7 +58,7 @@ services:
       - USER=transmission #optional
       - PASS=transmission #optional
     volumes:
-      - tnas-transmission:/config
+      - /media/transmission:/config
       - tnas-downloads:/downloads
     ports:
       - 9091:9091
@@ -75,7 +75,7 @@ services:
       - TZ=EAmerica/Toronto
       - AUTO_UPDATE=true #optional
     volumes:
-      - tnas-jackett:/config
+      - /media/jackett:/config
       - tnas-downloads:/downloads
     ports:
       - 9117:9117
@@ -89,7 +89,7 @@ services:
       - PGID=1000
       - TZ=EAmerica/Toronto
     volumes:
-      - tnas-organizr:/config
+      - /media/organizr:/config
     ports:
       - 4444:80
     restart: unless-stopped
@@ -102,7 +102,7 @@ services:
       - PGID=1000
       - TZ=EAmerica/Toronto
     volumes:
-      - tnas-ddclient:/config
+      - /media/ddclient:/config
     restart: unless-stopped
 
 volumes:
@@ -110,61 +110,17 @@ volumes:
   tnas-downloads:
     driver_opts:
       type: cifs
-      o: "username=user,password=pass,uid=1000,gid=1000"
-      device: "//nas-ip/downloads"
+      o: "username=username,password=password,uid=1000,gid=1000,rw"
+      device: "//192.168.X.XXX/downloads"
 
   tnas-shows:
     driver_opts:
       type: cifs
-      o: "username=user,password=pass,uid=1000,gid=1000"
-      device: "//nas-ip/media/shows"
+      o: "username=username,password=password,uid=1000,gid=1000,rw"
+      device: "//192.168.X.XXX/media/shows"
 
   tnas-movies:
     driver_opts:
       type: cifs
-      o: "username=user,password=pass,uid=1000,gid=1000"
-      device: "//nas-ip/media/movies"
-
-  # SQLite has trouble with network drives so we need to map a volume locally on host
-  # tnas-radarr:
-  #   driver_opts:
-  #     type: cifs
-  #     o: "username=user,password=pass,uid=1000,gid=1000"
-  #     device: "//nas-ip/media/configs/radarr"
-
-  # SQLite has trouble with network drives so we need to map a volume locally on host
-  # tnas-sonarr:
-  #   driver_opts:
-  #     type: cifs
-  #     o: "username=user,password=pass,uid=1000,gid=1000"
-  #     device: "//nas-ip/media/configs/sonarr"
-
-  tnas-plex:
-    driver_opts:
-      type: cifs
-      o: "username=user,password=pass,uid=1000,gid=1000"
-      device: "//nas-ip/media/configs/plex"
-
-  tnas-transmission:
-    driver_opts:
-      type: cifs
-      o: "username=user,password=pass,uid=1000,gid=1000"
-      device: "//nas-ip/media/configs/transmission"
-
-  tnas-jackett:
-    driver_opts:
-      type: cifs
-      o: "username=user,password=pass,uid=1000,gid=1000"
-      device: "//nas-ip/media/configs/jackett"
-
-  tnas-organizr:
-    driver_opts:
-      type: cifs
-      o: "username=user,password=pass,uid=1000,gid=1000"
-      device: "//nas-ip/media/configs/organizr"
-
-  tnas-ddclient:
-    driver_opts:
-      type: cifs
-      o: "username=user,password=pass,uid=1000,gid=1000"
-      device: "//nas-ip/media/configs/ddclient"
+      o: "username=username,password=password,uid=1000,gid=1000,rw"
+      device: "//192.168.X.XXX/media/movies"
