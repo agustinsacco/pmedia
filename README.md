@@ -1,12 +1,14 @@
 # PMedia
 
-## Issues
+Media manager and viewer (plex)
 
-If docker container stop fails force remove the network and try again:
-```
-sudo aa-remove-unknown
-```
 ## Setup
 
-### Sonarr + Radarr
+
+1. Update credentials and domain in ddclient.conf (currently set up for google domains)
+2. Run /scripts/setup.sh (no necessary if not using ddclient)
+3. docker-compose up
+
+
 #### Add indexers
+

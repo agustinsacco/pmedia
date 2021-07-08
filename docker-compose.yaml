@@ -6,12 +6,12 @@ services:
     container_name: plex
     network_mode: host
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1001
+      - PGID=1001
       - VERSION=docker
       - UMASK=022 #optional
     volumes:
-      - /media/config:/config
+      - ./config/plex:/config
       - tnas-shows:/shows
       - tnas-movies:/movies
     restart: unless-stopped
@@ -20,12 +20,12 @@ services:
     image: ghcr.io/linuxserver/radarr
     container_name: radarr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1001
+      - PGID=1001
       - TZ=EAmerica/Toronto
       - UMASK=022 #optional
     volumes:
-      - /media/radarr:/config
+      - ./config/radarr:/config
       - tnas-movies:/movies
       - tnas-downloads:/downloads
     ports:
@@ -36,12 +36,12 @@ services:
     image: ghcr.io/linuxserver/sonarr
     container_name: sonarr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1001
+      - PGID=1001
       - TZ=Europe/London
       - UMASK=022 #optional
     volumes:
-      - /media/sonarr:/config
+      - ./config/sonarr:/config
       - tnas-shows:/shows
       - tnas-downloads:/downloads
     ports:
@@ -52,13 +52,13 @@ services:
     image: ghcr.io/linuxserver/transmission
     container_name: transmission
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1001
+      - PGID=1001
       - TZ=EAmerica/Toronto
       - USER=transmission #optional
       - PASS=transmission #optional
     volumes:
-      - /media/transmission:/config
+      - ./config/transmission:/config
       - tnas-downloads:/downloads
     ports:
       - 9091:9091
@@ -70,12 +70,12 @@ services:
     image: ghcr.io/linuxserver/jackett
     container_name: jackett
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1001
+      - PGID=1001
       - TZ=EAmerica/Toronto
       - AUTO_UPDATE=true #optional
     volumes:
-      - /media/jackett:/config
+      - ./config/jackett:/config
       - tnas-downloads:/downloads
     ports:
       - 9117:9117
@@ -85,11 +85,11 @@ services:
     image: organizr/organizr
     container_name: organizr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1001
+      - PGID=1001
       - TZ=EAmerica/Toronto
     volumes:
-      - /media/organizr:/config
+      - ./config/organizr:/config
     ports:
       - 4444:80
     restart: unless-stopped
@@ -98,11 +98,11 @@ services:
     image: ghcr.io/linuxserver/ddclient
     container_name: ddclient
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1001
+      - PGID=1001
       - TZ=EAmerica/Toronto
     volumes:
-      - /media/ddclient:/config
+      - ./config/ddclient:/config
     restart: unless-stopped
 
 volumes:
@@ -110,17 +110,17 @@ volumes:
   tnas-downloads:
     driver_opts:
       type: cifs
-      o: "username=username,password=password,uid=1000,gid=1000,rw"
+      o: "username=username,password=password,uid=1001,gid=1001,rw"
       device: "//192.168.X.XXX/downloads"
 
   tnas-shows:
     driver_opts:
       type: cifs
-      o: "username=username,password=password,uid=1000,gid=1000,rw"
+      o: "username=username,password=password,uid=1001,gid=1001,rw"
       device: "//192.168.X.XXX/media/shows"
 
   tnas-movies:
     driver_opts:
       type: cifs
-      o: "username=username,password=password,uid=1000,gid=1000,rw"
+      o: "username=username,password=password,uid=1001,gid=1001,rw"
       device: "//192.168.X.XXX/media/movies"
